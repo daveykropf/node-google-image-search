@@ -1,0 +1,72 @@
+/*
+  This is a modified version of the GitHub repo: google-images made by Vadym Demedes
+  Original GitHub project: https://github.com/vdemedes/google-images
+*/
+
+'use strict'
+
+const qs = require('querystring')
+const got = require('got')
+
+class Client {
+  constructor(id, apiKey) {
+    this.endpoint = 'https://www.googleapis.com'
+    this.apiKey = apiKey
+    this.id = id
+  }
+
+  search(query, options) {
+    if (!query) {
+      throw new TypeError('Expected a query')
+    }
+
+    return got(this.endpoint + '/customsearch/v1?' + this._buildOptions(query, options), { json: true })
+      .then(this._buildResponse)
+  }
+
+  _buildOptions(query, options) {
+    if (!options) {
+      options = {}
+    }
+
+    var result = {
+      q: query,
+      searchType: 'image',
+      cx: this.id,
+      key: this.apiKey
+    }
+
+    if (options.page) {
+      result.start = options.page
+    }
+
+    if (options.size) {
+      result.imgSize = options.size
+    }
+
+    if (options.lang) {
+      result.hl = options.lang
+    }
+
+    return qs.stringify(result)
+  }
+
+  _buildResponse(res) {
+    return (res.body.items || []).map(function (item) {
+      return {
+        type: item.mime,
+        width: item.image.width,
+        height: item.image.height,
+        size: item.image.byteSize,
+        url: item.link,
+        thumbnail: {
+          url: item.image.thumbnailLink,
+          width: item.image.thumbnailWidth,
+          height: item.image.thumbnailHeight
+        }
+      }
+    })
+  }
+}
+
+module.exports = Client
