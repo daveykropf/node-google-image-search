@@ -1,0 +1,24 @@
+{
+  "name": "node-google-image-search",
+  "version": "1.0.0",
+  "description": "Get googles images by keyword",
+  "author": "Davey Kropf",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js --es_staging --use_strict main.js",
+    "serve": "NODE_ENV=production node --es_staging --use_strict main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daveykropf/node-google-image-search.git"
+  },
+  "dependencies": {
+    "express": "4.14.0",
+    "got": "6.5.0",
+    "querystring": "0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  }
+}
