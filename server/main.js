@@ -1,13 +1,14 @@
 const googleImages = require('./util/googleImageClient')
 const express = require('express')
+const config = require('config')
 const path = require('path')
 const app = express()
 
-const _cseId = (process.env.CSE_ID || 'CSE ID')
-const _apiKey = (process.env.API_KEY || 'API KEY')
+const _cseId = (process.env.CSE_ID || config.app.cseId)
+const _apiKey = (process.env.API_KEY || config.app.apiKey)
 const client = new googleImages(_cseId, _apiKey)
 
-const _apiSecret = (process.env.API_SECRET || 's3cr3t!!')
+const _apiSecret = (process.env.API_SECRET || config.app.apiSecret)
 
 app.get('/:apiKey/:searchTerm', (request, response) => {
   if (request.params.apiKey !== _apiSecret) return response.status(401).send('401 Unauthorized')
@@ -27,7 +28,7 @@ app.get('/status', (request, response) => {
   response.type('text').send(`STATUS [${hostname}][${dirname}]: OK.`);
 })
 
-app.set('port', (process.env.PORT || 3000))
+app.set('port', (process.env.PORT || config.server.port))
 
 app.listen(app.get('port'), (err) => {
   if (err) return console.log(err)

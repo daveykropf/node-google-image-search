@@ -2,7 +2,7 @@
 Search a logo by search term using the google search engine
 
 ## Requirements
-Node `^5.0.0`
+Node `^6.0.0`
 
 # Usage
 
@@ -13,6 +13,7 @@ Clone this repo and install the necessary node modules:
 $ git clone https://github.com/daveykropf/node-google-image-search.git
 $ cd node-google-image-search
 $ npm install
+$ bin/create-overides
 $ npm start
 ```
 
