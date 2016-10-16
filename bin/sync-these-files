@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const glob = require('glob-all')
+const config = require('config')
+
+const syncList = config.server.sync
+if (syncList && syncList instanceof Array) {
+  process.stdout.write(glob.sync(config.server.sync).join('\n'))
+} else {
+  process.stderr.write('No `config.server.sync` list provided! We have no clue what you are syncing about!')
+  process.exit(1)
+}
